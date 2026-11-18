@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nanotechnology Gallery</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      color: #203040;
+      background: #f4f8fb;
+    }
+
+    header, footer {
+      padding: 16px;
+      color: white;
+      background: #102a43;
+      text-align: center;
+    }
+
+    main {
+      width: min(1000px, 92%);
+      margin: 32px auto;
+    }
+
+    h1, h2 {
+      color: #102a43;
+    }
+
+    .intro {
+      margin-bottom: 24px;
+      text-align: center;
+    }
+
+    /* Cards automatically fit the available screen width. */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    .photo {
+      padding: 0;
+      overflow: hidden;
+      border: 0;
+      border-radius: 10px;
+      background: white;
+      box-shadow: 0 4px 14px #102a4320;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .photo img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+    }
+
+    .caption {
+      display: block;
+      padding: 12px;
+      color: #102a43;
+      font-weight: bold;
+    }
+
+    .photo:hover img,
+    .photo:focus-visible img {
+      opacity: 0.85;
+    }
+
+    /* The dialog is the lightbox for viewing a larger image. */
+    dialog {
+      width: min(700px, 92%);
+      padding: 16px;
+      border: 0;
+      border-radius: 10px;
+      color: #203040;
+    }
+
+    dialog::backdrop {
+      background: #071827cc;
+    }
+
+    dialog img {
+      display: block;
+      width: 100%;
+      border-radius: 6px;
+    }
+
+    dialog button {
+      margin-top: 12px;
+      padding: 10px 16px;
+      border: 0;
+      border-radius: 5px;
+      color: white;
+      background: #167d9a;
+      cursor: pointer;
+    }
+
+    footer {
+      margin-top: 32px;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Nanotechnology Gallery</h1>
+    <p>Innovations for healthcare and energy</p>
+  </header>
+
+  <main>
+    <section class="intro">
+      <h2>Small science, big possibilities</h2>
+      <p>Select an image to view it larger.</p>
+    </section>
+
+    <section class="gallery" aria-label="Nanotechnology image gallery">
+      <button class="photo" onclick="showImage(this)">
+        <img
+          alt="Nanoparticles being explored for healthcare"
+          src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 450'%3E%3Crect width='600' height='450' fill='%23d5f4f2'/%3E%3Ccircle cx='300' cy='225' r='95' fill='%23167d9a'/%3E%3Ccircle cx='300' cy='225' r='48' fill='%23b8f2e6'/%3E%3Cg fill='%23102a43'%3E%3Ccircle cx='130' cy='120' r='26'/%3E%3Ccircle cx='460' cy='130' r='34'/%3E%3Ccircle cx='150' cy='340' r='32'/%3E%3Ccircle cx='470' cy='330' r='24'/%3E%3C/g%3E%3C/svg%3E">
+        <span class="caption">Nanotechnology in healthcare</span>
+      </button>
+
+      <button class="photo" onclick="showImage(this)">
+        <img
+          alt="Sun and solar panel representing nanotechnology for solar energy"
+          src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 450'%3E%3Crect width='600' height='450' fill='%23e6f4f6'/%3E%3Ccircle cx='440' cy='115' r='62' fill='%23f4bd50'/%3E%3Cpath d='M80 280 500 230 540 370 120 410Z' fill='%23102a43'/%3E%3Cg stroke='%23b8f2e6' stroke-width='8'%3E%3Cpath d='m185 267 25 132M290 255l18 125M395 242l12 126M105 315l421-50M115 360l418-50'/%3E%3C/g%3E%3C/svg%3E">
+        <span class="caption">Nanomaterials and solar energy</span>
+      </button>
+
+      <button class="photo" onclick="showImage(this)">
+        <img
+          alt="Battery illustration representing energy storage research"
+          src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 450'%3E%3Crect width='600' height='450' fill='%23e5f1fa'/%3E%3Crect x='155' y='105' width='290' height='240' rx='28' fill='%23102a43'/%3E%3Crect x='255' y='75' width='90' height='30' rx='8' fill='%23102a43'/%3E%3Crect x='190' y='140' width='220' height='170' rx='15' fill='%23b8f2e6'/%3E%3Cpath d='m310 155-65 95h48l-10 55 75-100h-50Z' fill='%23167d9a'/%3E%3C/svg%3E">
+        <span class="caption">Nanotechnology and batteries</span>
+      </button>
+    </section>
+  </main>
+
+  <dialog id="lightbox">
+    <img id="largeImage" alt="">
+    <button onclick="document.getElementById('lightbox').close()">Close</button>
+  </dialog>
+
+  <footer>
+    <p>Practicum No. 7 · Responsive Grid Layout</p>
+  </footer>
+
+  <script>
+    function showImage(card) {
+      const thumbnail = card.querySelector("img");
+      const largeImage = document.getElementById("largeImage");
+      const lightbox = document.getElementById("lightbox");
+
+      largeImage.src = thumbnail.src;
+      largeImage.alt = thumbnail.alt;
+      lightbox.showModal();
+    }
+  </script>
+</body>
+</html>
